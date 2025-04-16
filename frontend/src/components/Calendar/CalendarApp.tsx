@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { format } from 'date-fns';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import CalendarHeader from './CalendarHeader';
 import MonthView from './MonthView';
 import WeekView from './WeekView';
@@ -22,8 +23,12 @@ const CalendarApp = () => {
               Today
             </button>
             <div className="flex gap-1">
-              <button className="p-2 rounded-lg hover:bg-muted/20">&lt;</button>
-              <button className="p-2 rounded-lg hover:bg-muted/20">&gt;</button>
+              <button className="p-2 rounded-lg hover:bg-muted/20">
+                <ChevronLeft className="w-4 h-4" />
+              </button>
+              <button className="p-2 rounded-lg hover:bg-muted/20">
+                <ChevronRight className="w-4 h-4" />
+              </button>
             </div>
             <div className="flex gap-1 bg-muted/20 p-1 rounded-lg">
               <button className={`px-3 py-1.5 text-sm font-medium rounded-md ${view === 'Day' ? 'bg-white shadow' : ''}`}>
