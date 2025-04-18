@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { format } from 'date-fns';
+import { format, addDays, addWeeks, addMonths, startOfDay } from 'date-fns';
 import { ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react';
 import * as Select from '@radix-ui/react-select';
 import CalendarHeader from './CalendarHeader';
@@ -9,9 +9,45 @@ import DayView from './DayView';
 import AgendaView from './AgendaView';
 
 const CalendarApp = () => {
-  const [currentDate, setCurrentDate] = useState(new Date(2025, 3, 14));
+  const [currentDate, setCurrentDate] = useState(new Date());
   const [view, setView] = useState('Month');
   
+  const handlePrevious = () => {
+    switch (view) {
+      case 'Day':
+        setCurrentDate(prev => addDays(prev, -1));
+        break;
+      case 'Week':
+        setCurrentDate(prev => addWeeks(prev, -1));
+        break;
+      case 'Month':
+        setCurrentDate(prev => addMonths(prev, -1));
+        break;
+      default:
+        break;
+    }
+  };
+
+  const handleNext = () => {
+    switch (view) {
+      case 'Day':
+        setCurrentDate(prev => addDays(prev, 1));
+        break;
+      case 'Week':
+        setCurrentDate(prev => addWeeks(prev, 1));
+        break;
+      case 'Month':
+        setCurrentDate(prev => addMonths(prev, 1));
+        break;
+      default:
+        break;
+    }
+  };
+
+  const handleToday = () => {
+    setCurrentDate(startOfDay(new Date()));
+  };
+
   const renderView = () => {
     switch (view) {
       case 'Day':
@@ -35,14 +71,23 @@ const CalendarApp = () => {
             {format(currentDate, 'MMMM yyyy')}
           </h2>
           <div className="flex items-center gap-4">
-            <button className="px-4 py-2 text-sm font-medium rounded-md bg-white border hover:bg-muted/20">
+            <button 
+              onClick={handleToday}
+              className="px-4 py-2 text-sm font-medium rounded-md bg-white border hover:bg-muted/20"
+            >
               Today
             </button>
             <div className="flex gap-1">
-              <button className="p-2 rounded-lg hover:bg-muted/20">
+              <button 
+                onClick={handlePrevious}
+                className="p-2 rounded-lg hover:bg-muted/20"
+              >
                 <ChevronLeft className="w-4 h-4" />
               </button>
-              <button className="p-2 rounded-lg hover:bg-muted/20">
+              <button 
+                onClick={handleNext}
+                className="p-2 rounded-lg hover:bg-muted/20"
+              >
                 <ChevronRight className="w-4 h-4" />
               </button>
             </div>
