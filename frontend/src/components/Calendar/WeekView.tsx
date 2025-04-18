@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { 
   startOfWeek, 
@@ -8,7 +7,8 @@ import {
   addHours,
   startOfDay,
   isBefore,
-  isAfter
+  isAfter,
+  endOfWeek
 } from 'date-fns';
 import { cn } from '@/lib/utils';
 
@@ -26,11 +26,13 @@ interface Event {
 interface WeekViewProps {
   currentDate: Date;
   events: Event[];
+  onAssignmentClick: (assignmentId: string) => void;
 }
 
-const WeekView = ({ currentDate, events }: WeekViewProps) => {
+const WeekView: React.FC<WeekViewProps> = ({ currentDate, events, onAssignmentClick }) => {
   const hours = Array.from({ length: 24 }, (_, i) => i);
   const weekStart = startOfWeek(currentDate);
+  const weekEnd = endOfWeek(currentDate);
   const weekDays = Array.from({ length: 7 }, (_, i) => addDays(weekStart, i));
   
   const renderWeekDays = () => {
@@ -103,6 +105,10 @@ const WeekView = ({ currentDate, events }: WeekViewProps) => {
     };
   };
 
+  const getEventsForDay = (day: Date) => {
+    return events.filter(event => isSameDay(event.date, day));
+  };
+
   return (
     <div className="bg-white rounded-md border border-border overflow-hidden h-[calc(100vh-12rem)]">
       {renderWeekDays()}
@@ -128,9 +134,7 @@ const WeekView = ({ currentDate, events }: WeekViewProps) => {
           
           {/* Events */}
           {weekDays.map((day, dayIndex) => {
-            const dayEvents = events.filter(event => 
-              isSameDay(day, new Date(event.date))
-            );
+            const dayEvents = getEventsForDay(day);
             
             return dayEvents.map(event => {
               const position = getEventPosition(event, dayIndex);
@@ -148,6 +152,7 @@ const WeekView = ({ currentDate, events }: WeekViewProps) => {
                     left: position.left,
                     width: position.width
                   }}
+                  onClick={() => onAssignmentClick(event.id.toString())}
                 >
                   {event.title}
                 </div>

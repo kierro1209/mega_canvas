@@ -2,13 +2,16 @@ import React, { useState } from 'react';
 import { format, addDays, addWeeks, addMonths, startOfDay } from 'date-fns';
 import { ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react';
 import * as Select from '@radix-ui/react-select';
+import { useNavigate } from 'react-router-dom';
 import CalendarHeader from './CalendarHeader';
 import MonthView from './MonthView';
 import WeekView from './WeekView';
 import DayView from './DayView';
-import AgendaView from './AgendaView';
+import AssignmentTable from '../AssignmentView/AssignmentTable';
+import StatusSummary from '../AssignmentView/StatusSummary';
 
 const CalendarApp = () => {
+  const navigate = useNavigate();
   const [currentDate, setCurrentDate] = useState(new Date());
   const [view, setView] = useState('Month');
   
@@ -48,18 +51,27 @@ const CalendarApp = () => {
     setCurrentDate(startOfDay(new Date()));
   };
 
+  const handleAssignmentClick = (assignmentId: string) => {
+    navigate(`/assignments/${assignmentId}`);
+  };
+
   const renderView = () => {
     switch (view) {
       case 'Day':
-        return <DayView currentDate={currentDate} events={[]} />;
+        return <DayView currentDate={currentDate} events={[]} onAssignmentClick={handleAssignmentClick} />;
       case 'Week':
-        return <WeekView currentDate={currentDate} events={[]} />;
+        return <WeekView currentDate={currentDate} events={[]} onAssignmentClick={handleAssignmentClick} />;
       case 'Month':
-        return <MonthView currentDate={currentDate} events={[]} />;
+        return <MonthView currentDate={currentDate} events={[]} onAssignmentClick={handleAssignmentClick} />;
       case 'Agenda':
-        return <AgendaView events={[]} />;
+        return (
+          <div className="space-y-4">
+            <StatusSummary counts={{ submitted: 0, comingUp: 0, overdue: 0 }} />
+            <AssignmentTable assignments={[]} />
+          </div>
+        );
       default:
-        return <MonthView currentDate={currentDate} events={[]} />;
+        return <MonthView currentDate={currentDate} events={[]} onAssignmentClick={handleAssignmentClick} />;
     }
   };
 

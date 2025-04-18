@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { format, isSameDay, isToday, addDays, isFuture } from 'date-fns';
 import { ArrowRight, Calendar, CheckCircle2 } from 'lucide-react';
@@ -18,9 +17,10 @@ interface Event {
 
 interface AgendaViewProps {
   events: Event[];
+  onAssignmentClick: (assignmentId: string) => void;
 }
 
-const AgendaView = ({ events }: AgendaViewProps) => {
+const AgendaView: React.FC<AgendaViewProps> = ({ events, onAssignmentClick }) => {
   // Sort events by date
   const sortedEvents = [...events].sort((a, b) => 
     new Date(a.date).getTime() - new Date(b.date).getTime()
@@ -84,6 +84,7 @@ const AgendaView = ({ events }: AgendaViewProps) => {
                   <div 
                     key={event.id}
                     className="flex items-center p-3 rounded-md border border-border hover:bg-muted/20 transition-colors"
+                    onClick={() => onAssignmentClick(event.id.toString())}
                   >
                     <div className={cn(
                       "w-1 self-stretch rounded-full mr-3",

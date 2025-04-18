@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { format, isSameDay } from 'date-fns';
 import { cn } from '@/lib/utils';
@@ -17,9 +16,10 @@ interface Event {
 interface DayViewProps {
   currentDate: Date;
   events: Event[];
+  onAssignmentClick: (assignmentId: string) => void;
 }
 
-const DayView = ({ currentDate, events }: DayViewProps) => {
+const DayView: React.FC<DayViewProps> = ({ currentDate, events, onAssignmentClick }) => {
   const hours = Array.from({ length: 24 }, (_, i) => i);
   
   const dayEvents = events.filter(event => 
@@ -107,6 +107,7 @@ const DayView = ({ currentDate, events }: DayViewProps) => {
                   top: position.top,
                   height: position.height
                 }}
+                onClick={() => onAssignmentClick(event.id.toString())}
               >
                 <div className="font-semibold">{event.title}</div>
                 {event.type === 'class' && event.startTime && event.endTime && (

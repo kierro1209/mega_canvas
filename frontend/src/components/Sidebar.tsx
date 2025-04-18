@@ -9,7 +9,7 @@ import {
   Percent, 
   FolderClosed, 
   Send, 
-  CircleUser, 
+  User, 
   Settings 
 } from "lucide-react";
 
@@ -27,7 +27,7 @@ export function Sidebar() {
 
   const bottomItems = [
     { icon: <Settings className="w-4 h-4" />, label: "Settings", path: "/settings" },
-    { icon: <CircleUser className="w-4 h-4" />, label: "Profile", path: "/profile" },
+    { icon: <User className="w-4 h-4" />, label: "Profile", path: "/profile" },
   ];
 
   return (

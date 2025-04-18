@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { 
   startOfMonth, 
@@ -8,7 +7,9 @@ import {
   addDays, 
   format, 
   isSameMonth, 
-  isSameDay 
+  isSameDay,
+  eachDayOfInterval,
+  isToday
 } from 'date-fns';
 import { cn } from '@/lib/utils';
 
@@ -24,9 +25,10 @@ interface Event {
 interface MonthViewProps {
   currentDate: Date;
   events: Event[];
+  onAssignmentClick: (assignmentId: string) => void;
 }
 
-const MonthView = ({ currentDate, events }: MonthViewProps) => {
+const MonthView: React.FC<MonthViewProps> = ({ currentDate, events, onAssignmentClick }) => {
   const renderDays = () => {
     const days = [];
     const dateFormat = 'EEE';
@@ -48,7 +50,7 @@ const MonthView = ({ currentDate, events }: MonthViewProps) => {
 
   const renderCells = () => {
     const monthStart = startOfMonth(currentDate);
-    const monthEnd = endOfMonth(monthStart);
+    const monthEnd = endOfMonth(currentDate);
     const startDate = startOfWeek(monthStart);
     const endDate = endOfWeek(monthEnd);
     
@@ -93,8 +95,10 @@ const MonthView = ({ currentDate, events }: MonthViewProps) => {
                   key={event.id} 
                   className={cn(
                     "calendar-event",
-                    `bg-class-${event.classId}`
+                    `bg-class-${event.classId}`,
+                    isToday(day) && "today"
                   )}
+                  onClick={() => onAssignmentClick(event.id.toString())}
                 >
                   {event.type === 'assignment' && event.dueTime && (
                     <span className="mr-1">{event.dueTime}</span>
