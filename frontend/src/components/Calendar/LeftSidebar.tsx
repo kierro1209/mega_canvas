@@ -23,8 +23,8 @@ const SidebarItem = ({ icon, label, isActive = false, isCollapsed }: SidebarItem
   return (
     <div 
       className={cn(
-        "flex items-center gap-3 px-3 py-3 rounded-md cursor-pointer transition-all",
-        isActive ? "bg-purple text-white" : "hover:bg-muted"
+        "flex gap-3 items-center px-3 py-3 rounded-md transition-all cursor-pointer",
+        isActive ? "text-white bg-purple" : "hover:bg-muted"
       )}
     >
       <div className="text-xl">{icon}</div>
@@ -38,13 +38,13 @@ const LeftSidebar = () => {
 
   return (
     <div className={cn(
-      "h-screen flex flex-col border-r border-border bg-sidebar transition-all",
+      "flex flex-col h-screen border-r transition-all border-border bg-sidebar",
       isCollapsed ? "w-[70px]" : "w-[240px]"
     )}>
-      <div className="flex items-center justify-between p-4">
-        {!isCollapsed && <span className="text-lg font-bold">EduHub</span>}
+      <div className="flex justify-between items-center p-4">
+        {!isCollapsed && <span className="text-lg font-bold">Station</span>}
         {isCollapsed && <div className="mx-auto">
-          <span className="text-lg font-bold text-purple">E</span>
+          <span className="text-lg font-bold text-purple">S</span>
         </div>}
         <button 
           onClick={() => setIsCollapsed(!isCollapsed)} 
@@ -63,12 +63,7 @@ const LeftSidebar = () => {
       
       <div className="p-2 border-t border-border">
         <SidebarItem icon={<Settings />} label="Settings" isCollapsed={isCollapsed} />
-        <div className="flex items-center gap-3 px-3 py-3 mt-2 rounded-md hover:bg-muted cursor-pointer">
-          <div className="w-8 h-8 bg-muted rounded-full flex items-center justify-center">
-            <User size={18} />
-          </div>
-          {!isCollapsed && <span className="text-sm font-medium">Profile</span>}
-        </div>
+        <SidebarItem icon={<User />} label="Profile" isCollapsed={isCollapsed} />
       </div>
     </div>
   );
