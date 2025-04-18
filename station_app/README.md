@@ -1,6 +1,6 @@
 # Station
 ## insert clever 7 word description
-(Production "branch", only commit code that you have tested and runs correctly!)
+Production application for Station, only commit code that you have tested and runs correctly!
 SAAS template used: https://github.com/ixartz/SaaS-Boilerplate?tab=readme-ov-file
 
 How to run (Docker, recommended):
