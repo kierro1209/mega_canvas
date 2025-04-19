@@ -22,7 +22,7 @@
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 270 50% 54%;
+    --accent: 245 62% 54%;
     --accent-foreground: 0 0% 98%;
 
     --destructive: 0 84.2% 60.2%;
@@ -70,7 +70,7 @@
   }
   
   .calendar-event {
-    @apply mb-1 rounded px-2 py-1 text-xs font-medium text-white truncate cursor-pointer;
+    @apply px-2 py-1 mb-1 text-xs font-medium text-white truncate rounded cursor-pointer;
   }
   
   .week-view-cell {
@@ -78,23 +78,23 @@
   }
   
   .week-view-time {
-    @apply text-xs text-muted-foreground pr-2 text-right border-r border-border;
+    @apply pr-2 text-xs text-right border-r text-muted-foreground border-border;
   }
   
   .week-view-event {
-    @apply absolute rounded px-1 text-xs font-medium text-white overflow-hidden text-ellipsis whitespace-nowrap;
+    @apply overflow-hidden absolute px-1 text-xs font-medium text-white whitespace-nowrap rounded text-ellipsis;
   }
   
   .mini-calendar-day {
-    @apply h-7 w-7 rounded-full flex items-center justify-center text-xs cursor-pointer;
+    @apply flex justify-center items-center w-7 h-7 text-xs rounded-full cursor-pointer;
   }
   
   .mini-calendar-day.today {
-    @apply bg-purple text-white;
+    @apply text-white bg-purple;
   }
   
   .mini-calendar-day.selected {
-    @apply bg-purple/20 text-purple-dark font-medium;
+    @apply font-medium bg-purple/20 text-purple-dark;
   }
   
   .mini-calendar-day.different-month {
@@ -102,6 +102,6 @@
   }
   
   .calendar-nav-button {
-    @apply p-2 rounded-full hover:bg-muted/50 transition-colors;
+    @apply p-2 rounded-full transition-colors hover:bg-muted/50;
   }
 }

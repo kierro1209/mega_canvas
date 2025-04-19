@@ -1,18 +1,21 @@
 import { Sidebar } from '@/components/Sidebar';
-import Dashboard from '@/components/Home/Dashboard';
+import RightSidebar from '@/components/Calendar/RightSidebar';
+import CalendarApp from '@/components/Calendar/CalendarApp';
 
-const Index = () => {
+const Calendar = () => {
   return (
     <div className="flex h-screen overflow-hidden">
       <Sidebar />
       
       <main className="flex-1 overflow-hidden">
         <div className="h-full p-4">
-          <Dashboard />
+          <CalendarApp />
         </div>
       </main>
+      
+      <RightSidebar />
     </div>
   );
 };
 
-export default Index;
+export default Calendar;

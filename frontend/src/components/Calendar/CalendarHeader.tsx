@@ -1,7 +1,4 @@
-
-import React from 'react';
 import { 
-  ChevronDown,
   ChevronLeft, 
   ChevronRight, 
 } from 'lucide-react';
@@ -32,7 +29,11 @@ const CalendarHeader = ({
     <div className="flex justify-between items-center mb-4 px-4">
       <div className="flex items-center space-x-4">
         <h1 className="text-2xl font-bold">
-          {format(currentDate, view === 'Week' ? "'Week of' MMM d, yyyy" : 'MMMM yyyy')}
+          {format(currentDate, 
+            view === 'Day' ? 'MMMM d, yyyy' :
+            view === 'Week' ? "'Week of' MMM d, yyyy" : 
+            'MMMM yyyy'
+          )}
         </h1>
         <div className="flex space-x-1">
           <Button 

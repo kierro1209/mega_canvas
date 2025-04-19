@@ -7,8 +7,8 @@ import CalendarHeader from './CalendarHeader';
 import MonthView from './MonthView';
 import WeekView from './WeekView';
 import DayView from './DayView';
-import AssignmentTable from '../AssignmentView/AssignmentTable';
-import StatusSummary from '../AssignmentView/StatusSummary';
+import AssignmentTable from './AssignmentTable';
+import StatusSummary from './StatusSummary';
 
 const CalendarApp = () => {
   const navigate = useNavigate();
