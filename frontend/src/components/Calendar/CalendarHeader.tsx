@@ -26,63 +26,64 @@ const CalendarHeader = ({
   onViewChange
 }: CalendarHeaderProps) => {
   return (
-    <div className="flex justify-between items-center mb-4 px-4">
+    <div className="flex justify-between items-center px-4 mb-4">
       <div className="flex items-center space-x-4">
         <h1 className="text-2xl font-bold">
-          {format(currentDate, 
-            view === 'Day' ? 'MMMM d, yyyy' :
-            view === 'Week' ? "'Week of' MMM d, yyyy" : 
-            'MMMM yyyy'
-          )}
+          {view === 'Agenda' ? 'Agenda' :
+           format(currentDate, 
+             view === 'Day' ? 'MMMM d, yyyy' :
+             view === 'Week' ? "'Week of' MMM d, yyyy" : 
+             'MMMM yyyy'
+           )}
         </h1>
-        <div className="flex space-x-1">
-          <Button 
-            variant="ghost" 
-            size="icon" 
-            onClick={onPrev}
-            className="calendar-nav-button"
-          >
-            <ChevronLeft size={20} />
-          </Button>
-          <Button 
-            variant="ghost" 
-            size="icon" 
-            onClick={onNext}
-            className="calendar-nav-button"
-          >
-            <ChevronRight size={20} />
-          </Button>
-        </div>
       </div>
-      
       <div className="flex items-center space-x-2">
-        <Button 
-          variant="outline" 
-          size="sm" 
-          onClick={onToday}
-          className="text-sm"
-        >
-          Today
-        </Button>
-        
-        <div className="flex rounded-md overflow-hidden border border-border">
-          {viewOptions.map((option) => (
-            <button
-              key={option}
-              onClick={() => onViewChange(option)}
-              className={cn(
-                "px-3 py-1.5 text-sm font-medium",
-                view === option 
-                  ? "bg-purple text-white" 
-                  : "bg-white hover:bg-muted"
-              )}
+        <div className="flex items-center space-x-2">
+          <Button 
+            variant="outline" 
+            size="sm" 
+            onClick={onToday}
+          >
+            Today
+          </Button>
+          
+          <div className="flex overflow-hidden items-center h-8 rounded-md border border-border">
+            {viewOptions.map((option) => (
+              <button
+                key={option}
+                onClick={() => onViewChange(option)}
+                className={cn(
+                  "px-3 h-full text-sm font-medium",
+                  view === option 
+                    ? "bg-purple text-white" 
+                    : "bg-white hover:bg-muted"
+                )}
+              >
+                {option}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className="flex">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              onClick={onPrev}
+              className="calendar-nav-button"
             >
-              {option}
-            </button>
-          ))}
+              <ChevronLeft size={20} />
+            </Button>
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              onClick={onNext}
+              className="calendar-nav-button"
+            >
+              <ChevronRight size={20} />
+            </Button>
+          </div>
         </div>
       </div>
-    </div>
   );
 };
 
