@@ -1,0 +1,106 @@
+@import "tailwindcss";
+@config "../tailwind.config.js";
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 245 62% 54%;
+    --accent-foreground: 0 0% 98%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 270 50% 54%;
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 270 50% 54%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 270 50% 54%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer components {
+  .calendar-cell {
+    @apply relative p-1 h-24 border transition-all border-[hsl(var(--border))] bg-[hsl(var(--background))] hover:bg-muted/[0.2];
+  }
+  
+  .calendar-cell.today {
+    @apply bg-purple-light/10 border-purple;
+  }
+  
+  .calendar-cell.different-month {
+    @apply bg-muted/20 text-muted-foreground;
+  }
+  
+  .calendar-event {
+    @apply px-2 py-1 mb-1 text-xs font-medium text-white truncate rounded cursor-pointer;
+  }
+  
+  .week-view-cell {
+    @apply relative border-r border-b border-border min-h-[5rem] transition-all hover:bg-muted/10;
+  }
+  
+  .week-view-time {
+    @apply pr-2 text-xs text-right border-r text-muted-foreground border-border;
+  }
+  
+  .week-view-event {
+    @apply overflow-hidden absolute px-1 text-xs font-medium text-white whitespace-nowrap rounded text-ellipsis;
+  }
+  
+  .mini-calendar-day {
+    @apply flex justify-center items-center w-7 h-7 text-xs rounded-full cursor-pointer;
+  }
+  
+  .mini-calendar-day.today {
+    @apply text-white bg-purple;
+  }
+  
+  .mini-calendar-day.selected {
+    @apply font-medium bg-purple/20 text-purple-dark;
+  }
+  
+  .mini-calendar-day.different-month {
+    @apply text-muted-foreground;
+  }
+  
+  .calendar-nav-button {
+    @apply p-2 rounded-full transition-colors hover:bg-muted/50;
+  }
+}

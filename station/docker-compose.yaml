@@ -1,10 +1,10 @@
 services:
   station:
-    build: ./station_app
+    build: ./station_frontend
     depends_on:
       - python_service
     ports:
-      - "3000:3000"
+      - "5173:5173"
     environment:
       - REACT_APP_PYTHON_SERVICE_URL=http://python_service:8000
 
