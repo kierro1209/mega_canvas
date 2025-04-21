@@ -1,0 +1,12 @@
+openai
+requests
+python-decouple
+fastapi
+supabase
+dotenv
+pydantic
+httpx
+uuid
+datetime
+os
+Typing
