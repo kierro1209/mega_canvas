@@ -1,13 +1,13 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import Index from './pages/Index';
 import Portal from './pages/Portal';
 import ErrorPage from './pages/ErrorPage';
 import Calendar from './pages/Calendar';
+import Dashboard from './pages/Dashboard';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Index />,
+    element: <Dashboard />,
     errorElement: <ErrorPage />,
   },
   {

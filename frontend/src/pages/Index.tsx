@@ -1,5 +1,5 @@
 import { Sidebar } from '@/components/Sidebar';
-import Dashboard from '@/components/Home/Dashboard';
+import Dashboard from '@/components/Home/DashboardApp';
 
 const Index = () => {
   return (
