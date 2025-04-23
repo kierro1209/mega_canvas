@@ -4,6 +4,7 @@ import Portal from './pages/Portal';
 import ErrorPage from './pages/ErrorPage';
 import Calendar from './pages/Calendar';
 import Assignments from './pages/Assignments';
+import Login from './pages/Login';
 
 const router = createBrowserRouter([
   {
@@ -12,8 +13,18 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
   {
+    path: '/dashboard',
+    element: <Index />,
+    errorElement: <ErrorPage />,
+  },
+  {
     path: '/calendar',
     element: <Calendar />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: '/login',
+    element: <Login />,
     errorElement: <ErrorPage />,
   },
   {
