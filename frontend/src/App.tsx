@@ -1,18 +1,24 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import Index from './pages/Index';
 import Portal from './pages/Portal';
 import ErrorPage from './pages/ErrorPage';
 import Calendar from './pages/Calendar';
-import Dashboard from './pages/Dashboard';
+import Assignments from './pages/Assignments';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Dashboard />,
+    element: <Index />,
     errorElement: <ErrorPage />,
   },
   {
     path: '/calendar',
     element: <Calendar />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: '/assignments',
+    element: <Assignments />,
     errorElement: <ErrorPage />,
   },
   {

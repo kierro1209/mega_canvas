@@ -8,7 +8,8 @@ import {
   Send, 
   Percent, 
   Settings, 
-  User 
+  User,
+  BookOpenText
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -44,6 +45,7 @@ export function Sidebar() {
   const navItems = [
     { icon: <Home />, label: "Home", path: "/" },
     { icon: <Calendar />, label: "Calendar", path: "/calendar" },
+    { icon: <BookOpenText />, label: "Assignments", path: "/assignments" },
     { icon: <Percent />, label: "Grades", path: "/grades" },
     { icon: <Send />, label: "Messages", path: "/messages" },
   ];
