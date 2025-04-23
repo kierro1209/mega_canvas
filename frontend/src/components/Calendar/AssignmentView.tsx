@@ -4,74 +4,45 @@ import StatusSummary from "./StatusSummary";
 import AssignmentTable from "./AssignmentTable";
 import { Assignment, StatusCount } from "@/types";
 import { UserCircle } from "lucide-react";
+import { useEffect, useState } from "react";
 
-// Sample data
-const statusCount: StatusCount = {
-  submitted: 4,
-  comingUp: 2,
-  overdue: 1
-};
-
-const assignments: Assignment[] = [
-  {
-    id: "1",
-    name: "Laboratory Reflection #1",
-    status: "OVERDUE",
-    dueDate: "Mar 16 at 11:59PM",
-    tags: ["Extra Credit", "Urgent", "+1"]
-  },
-  {
-    id: "2",
-    name: "Homework #4",
-    status: "SUBMITTED",
-    dueDate: "Mar 20 at 11:59PM",
-    tags: ["Late Submission"]
-  },
-  {
-    id: "3",
-    name: "Groupwork Assignment",
-    status: "NO SUBMISSION",
-    dueDate: "Apr 20 at 11:59PM",
-    tags: ["Group", "Due This Week"]
-  },
-  {
-    id: "4",
-    name: "Midterm Exam",
-    status: "SUBMITTED",
-    dueDate: "Mar 16 at 11:59PM",
-    tags: ["Due Today"]
-  },
-  {
-    id: "5",
-    name: "Section 3 Quiz",
-    status: "SUBMITTED",
-    dueDate: "Mar 8 at 11:59PM",
-    tags: ["Extra Credit"]
-  },
-  {
-    id: "6",
-    name: "Laboratory Reflection #2",
-    status: "SUBMITTED",
-    dueDate: "Mar 29 at 11:59PM",
-    tags: ["Due This Week"]
-  },
-  {
-    id: "7",
-    name: "Syllabus Quiz",
-    status: "NO SUBMISSION",
-    dueDate: "Mar 30 at 11:59PM",
-    tags: ["Extra Credit"]
-  },
-  {
-    id: "8",
-    name: "Final Exam",
-    status: "NO SUBMISSION",
-    dueDate: "Mar 30 at 11:59PM",
-    tags: []
-  }
-];
+const API_BASE_URL = "http://localhost:8000";
 
 const AssignmentView = () => {
+  const [assignments, setAssignments] = useState<Assignment[]>([]);
+  const [statusCount, setStatusCount] = useState<StatusCount>({
+    submitted: 0,
+    comingUp: 0,
+    overdue: 0
+  });
+
+  useEffect(() => {
+    const fetchAssignments = async () => {
+      try {
+        // TODO: Replace with actual student ID from auth context
+        const studentId = "your-student-id";
+        const response = await fetch(`${API_BASE_URL}/todo_short?stu_id=${studentId}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch assignments');
+        }
+        const data = await response.json();
+        setAssignments(data);
+        
+        // Calculate status counts
+        const counts = {
+          submitted: data.filter((a: Assignment) => a.status === "SUBMITTED").length,
+          comingUp: data.filter((a: Assignment) => a.status === "NO SUBMISSION").length,
+          overdue: data.filter((a: Assignment) => a.status === "OVERDUE").length
+        };
+        setStatusCount(counts);
+      } catch (error) {
+        console.error("Failed to load assignments:", error);
+      }
+    };
+
+    fetchAssignments();
+  }, []);
+
   return (
     <SidebarProvider>
       <div className="flex w-full min-h-screen bg-gray-100">

@@ -15,6 +15,7 @@ interface ExtendedAssignment {
   description?: string;
   pointsPossible?: number;
   pointsEarned?: number;
+  tags: string[];
 }
 
 interface AssignmentListProps {
@@ -48,7 +49,8 @@ const AssignmentList: React.FC<AssignmentListProps> = ({
       dueDate: '2025-04-30T23:59:00',
       status: 'NO SUBMISSION',
       description: 'Submit a detailed outline for your final research paper including thesis statement and supporting arguments.',
-      pointsPossible: 20
+      pointsPossible: 20,
+      tags: []
     },
     {
       id: '2',
@@ -60,7 +62,8 @@ const AssignmentList: React.FC<AssignmentListProps> = ({
       status: 'SUBMITTED',
       description: 'Implement the sorting algorithm discussed in class using the programming language of your choice.',
       pointsPossible: 50,
-      pointsEarned: 47
+      pointsEarned: 47,
+      tags: []
     },
     {
       id: '3',
@@ -71,7 +74,8 @@ const AssignmentList: React.FC<AssignmentListProps> = ({
       dueDate: '2025-04-22T10:00:00',
       status: 'OVERDUE',
       description: 'Comprehensive exam covering all material from weeks 1-8. Calculators permitted.',
-      pointsPossible: 100
+      pointsPossible: 100,
+      tags: []
     }
   ];
 
