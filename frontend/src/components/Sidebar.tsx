@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { 
   Home, 
   Calendar, 
@@ -9,7 +9,8 @@ import {
   Percent, 
   Settings, 
   User,
-  BookOpenText
+  BookOpenText,
+  LogOut
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -41,6 +42,7 @@ const SidebarItem = ({ icon, label, path, isCollapsed }: SidebarItemProps) => {
 
 export function Sidebar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const navigate = useNavigate();
 
   const navItems = [
     { icon: <Home />, label: "Home", path: "/" },
@@ -54,6 +56,11 @@ export function Sidebar() {
     { icon: <Settings />, label: "Settings", path: "/settings" },
     { icon: <User />, label: "Profile", path: "/profile" },
   ];
+
+  const handleSignOut = () => {
+    // TODO: Implement sign out logic here
+    navigate('/login');
+  };
 
   return (
     <div className={cn(
@@ -85,7 +92,7 @@ export function Sidebar() {
         ))}
       </div>
       
-      <div className="p-2 border-t border-border">
+      <div className="p-2 border-t border-border space-y-1">
         {bottomItems.map((item) => (
           <SidebarItem
             key={item.path}
@@ -95,6 +102,16 @@ export function Sidebar() {
             isCollapsed={isCollapsed}
           />
         ))}
+        
+        <div 
+          className={cn(
+            "flex gap-3 items-center px-3 py-3 rounded-md transition-all cursor-pointer text-red-500 hover:bg-red-50",
+          )}
+          onClick={handleSignOut}
+        >
+          <div className="text-xl"><LogOut /></div>
+          {!isCollapsed && <span className="text-sm font-medium">Sign Out</span>}
+        </div>
       </div>
     </div>
   );

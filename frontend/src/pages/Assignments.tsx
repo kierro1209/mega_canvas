@@ -1,7 +1,7 @@
 import { Sidebar } from '@/components/Sidebar';
 import AssignmentsApp from '@/components/Assignments/AssignmentApp';
 
-const Calendar = () => {
+const Assignments = () => {
   return (
     <div className="flex h-screen overflow-hidden">
       <Sidebar />
@@ -15,4 +15,4 @@ const Calendar = () => {
   );
 };
 
-export default Calendar;
+export default Assignments;
