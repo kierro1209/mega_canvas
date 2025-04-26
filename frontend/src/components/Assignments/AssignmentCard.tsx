@@ -14,7 +14,6 @@ interface ExtendedAssignment {
   description?: string;
   pointsPossible?: number;
   pointsEarned?: number;
-  tags: string[];
 }
 
 interface AssignmentCardProps {
@@ -66,7 +65,7 @@ const AssignmentCard: React.FC<AssignmentCardProps> = ({ assignment }) => {
   };
 
   return (
-    <div className="relative bg-white rounded-lg border transition-colors border-border hover:border-purple" onClick={() => navigate(`/submit/${assignment.id}`)}>
+    <div className="relative bg-white rounded-lg border transition-all duration-200 border-border hover:shadow-md" onClick={() => navigate(`/submit/${assignment.id}`)}>
       <div className="flex">
         <div className={cn('w-2 self-stretch rounded-l-lg', getColorClass(assignment.classColor))}></div>
         <div className="flex-1 p-3">

@@ -45,18 +45,23 @@ const getColorClass = (color: string) => {
 };
 
 {/* Class Card Template */}
-const ClassCard = ({ course }: { course: Course }) => (
-    <div className="flex flex-col items-start p-2 space-y-1 w-64 rounded-xl border-2">
+const ClassCard = ({ course }: { course: Course }) => {
+    const navigate = useNavigate();
+    return (
+    <div 
+        onClick={() => navigate(`/class/${course.id}`)} 
+        className="flex flex-col items-start p-2 space-y-1 w-64 rounded-xl border-2 transition-all duration-200 hover:shadow-md">
+
         <div className={cn('mb-2 w-full rounded-lg h-42', getColorClass(course.color))}></div>
         <h1 className="w-full font-bold truncate text-md">{course.name}: {course.title}</h1>
         <div className="text-sm font-medium">{course.term}</div>
     </div>
-);
+    );
+};
 
 const ClassList = () => {
-    const navigate = useNavigate();
     return (
-        <div className="flex justify-between items-center px-4 mb-4" onClick={() => navigate(`/class/:classId`)}>
+        <div className="flex justify-between items-center px-4 mb-4">
             <div className="flex flex-col items-start space-x-4 space-y-2">
                 {/* Header */}
                 <h1 className="text-xl font-bold">
