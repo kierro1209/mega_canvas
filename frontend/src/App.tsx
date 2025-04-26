@@ -5,6 +5,7 @@ import ErrorPage from './pages/ErrorPage';
 import Calendar from './pages/Calendar';
 import Assignments from './pages/Assignments';
 import Login from './pages/Login';
+import ClassPage from './pages/ClassPage';
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,11 @@ const router = createBrowserRouter([
   {
     path: '/login',
     element: <Login />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: '/class/:classId',
+    element: <ClassPage />,
     errorElement: <ErrorPage />,
   },
   {

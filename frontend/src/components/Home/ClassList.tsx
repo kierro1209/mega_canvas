@@ -1,4 +1,5 @@
 import { cn } from '@/lib/utils';
+import { useNavigate } from 'react-router-dom';
 
 interface Course {
     id: string;
@@ -53,8 +54,9 @@ const ClassCard = ({ course }: { course: Course }) => (
 );
 
 const ClassList = () => {
+    const navigate = useNavigate();
     return (
-        <div className="flex justify-between items-center px-4 mb-4">
+        <div className="flex justify-between items-center px-4 mb-4" onClick={() => navigate(`/class/:classId`)}>
             <div className="flex flex-col items-start space-x-4 space-y-2">
                 {/* Header */}
                 <h1 className="text-xl font-bold">

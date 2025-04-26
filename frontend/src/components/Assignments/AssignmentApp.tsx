@@ -34,7 +34,7 @@ const AssignmentApp = () => {
   };
   
   return (
-    <div className="flex flex-col h-full space-y-4">
+    <div className="flex flex-col space-y-4 h-full">
       <AssignmentHeader 
         searchQuery={searchQuery}
         onSearch={handleSearch}
@@ -42,10 +42,10 @@ const AssignmentApp = () => {
         onSortChange={handleSortChange}
       />
       
-      <div className="flex-1 overflow-auto">
+      <div className="overflow-auto flex-1">
         <StatusSummary counts={statusCount} />
         
-        <div className="bg-white rounded-lg border border-border shadow-sm">
+        <div className="bg-white rounded-lg border shadow-sm border-border">
           <div className="p-4 border-b border-border">
             <AssignmentFilter 
               statusFilter={statusFilter}

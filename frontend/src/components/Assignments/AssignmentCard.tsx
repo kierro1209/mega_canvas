@@ -2,6 +2,7 @@ import React from 'react';
 import { format, parseISO, isToday, isBefore } from 'date-fns';
 import { Clock, FileText } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useNavigate } from 'react-router-dom';
 
 interface ExtendedAssignment {
   id: string;
@@ -21,6 +22,7 @@ interface AssignmentCardProps {
 }
 
 const AssignmentCard: React.FC<AssignmentCardProps> = ({ assignment }) => {
+  const navigate = useNavigate();
   const getColorClass = (color: string) => {
     const colorMap: { [key: string]: string } = {
       'red-500': 'bg-red-500',
@@ -64,14 +66,14 @@ const AssignmentCard: React.FC<AssignmentCardProps> = ({ assignment }) => {
   };
 
   return (
-    <div className="relative bg-white rounded-lg border border-border hover:border-purple transition-colors">
+    <div className="relative bg-white rounded-lg border transition-colors border-border hover:border-purple" onClick={() => navigate(`/submit/${assignment.id}`)}>
       <div className="flex">
         <div className={cn('w-2 self-stretch rounded-l-lg', getColorClass(assignment.classColor))}></div>
         <div className="flex-1 p-3">
           <div className="flex items-center gap-3 mb-1.5 flex-wrap">
             <h3 className="text-base font-medium truncate">{assignment.name}</h3>
             
-            <div className="flex items-center gap-2">
+            <div className="flex gap-2 items-center">
               <div className="flex items-center whitespace-nowrap">
                 <div className={cn('w-2 h-2 rounded-full mr-1', getColorClass(assignment.classColor))}></div>
                 <span className="text-xs text-gray-600">{assignment.className}</span>
@@ -88,9 +90,9 @@ const AssignmentCard: React.FC<AssignmentCardProps> = ({ assignment }) => {
             </div>
           </div>
           
-          <div className="flex items-center gap-3">
+          <div className="flex gap-3 items-center">
             <div className="flex items-center whitespace-nowrap">
-              <Clock size={12} className="mr-1 flex-shrink-0" />
+              <Clock size={12} className="flex-shrink-0 mr-1" />
               <span className={getDueDateStatus(assignment.dueDate)}>
                 {format(parseISO(assignment.dueDate), 'MMM d, h:mm a')}
               </span>
@@ -98,7 +100,7 @@ const AssignmentCard: React.FC<AssignmentCardProps> = ({ assignment }) => {
             
             {assignment.pointsPossible && (
               <div className="flex items-center">
-                <FileText size={12} className="mr-1 flex-shrink-0" />
+                <FileText size={12} className="flex-shrink-0 mr-1" />
                 <span className="text-xs">
                   {assignment.pointsEarned !== undefined 
                     ? `${assignment.pointsEarned}/${assignment.pointsPossible}` 
