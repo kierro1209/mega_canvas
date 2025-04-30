@@ -50,7 +50,7 @@ const ClassCard = ({ course }: { course: Course }) => {
     return (
     <div 
         onClick={() => navigate(`/class/${course.id}`)} 
-        className="flex flex-col items-start p-2 space-y-1 w-64 rounded-xl border-2 transition-all duration-200 hover:shadow-md">
+        className="flex flex-col items-start p-2 space-y-1 w-64 rounded-xl border-2 hover:bg-muted">
 
         <div className={cn('mb-2 w-full rounded-lg h-42', getColorClass(course.color))}></div>
         <h1 className="w-full font-bold truncate text-md">{course.name}: {course.title}</h1>

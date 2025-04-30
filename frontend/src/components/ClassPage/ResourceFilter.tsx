@@ -3,6 +3,7 @@ import { ResourceTag } from "./ResourceTag";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 type ResourceStatus = 'NO SUBMISSION' | 'SUBMITTED' | 'OVERDUE';
+type ResourceType = 'reading' | 'assignment' | 'exam' | 'lecture' | 'slides';
 
 interface Course {
   id: string;
@@ -14,6 +15,8 @@ interface Course {
 interface ResourceFilterProps {
   selectedStatus: ResourceStatus | "all";
   setSelectedStatus: (status: ResourceStatus | "all") => void;
+  selectedType: ResourceType | "all";
+  setSelectedType: (type: ResourceType | "all") => void;
   selectedCourse: string | "all";
   setSelectedCourse: (course: string | "all") => void;
   courses: Course[];
@@ -159,8 +162,8 @@ export const Resources = [
 
 
 export function ResourceFilter({
-  selectedStatus,
-  setSelectedStatus,
+  selectedType,
+  setSelectedType,
   selectedCourse,
   setSelectedCourse,
   courses,
@@ -169,36 +172,52 @@ export function ResourceFilter({
     <div className="flex flex-wrap gap-2 mb-6">
       <div className="flex space-x-1">
         <Button
-          variant={selectedStatus === "all" ? "default" : "outline"}
+          variant={selectedType === "all" ? "default" : "outline"}
           size="sm"
-          onClick={() => setSelectedStatus("all")}
-          className="font-medium rounded-full"
-        >
-          View All
-        </Button>
-        <Button
-          variant={selectedStatus === "SUBMITTED" ? "default" : "outline"}
-          size="sm"
-          onClick={() => setSelectedStatus("SUBMITTED")}
+          onClick={() => setSelectedType("all")}
           className="rounded-full"
         >
-          <ResourceTag variant="status" value="SUBMITTED" />
+          <span className="inline-flex items-center px-2 py-0.5 text-xs font-medium">View All</span>
         </Button>
         <Button
-          variant={selectedStatus === "NO SUBMISSION" ? "default" : "outline"}
+          variant={selectedType === "assignment" ? "default" : "outline"}
           size="sm"
-          onClick={() => setSelectedStatus("NO SUBMISSION")}
+          onClick={() => setSelectedType("assignment")}
           className="rounded-full"
         >
-          <ResourceTag variant="status" value="NO SUBMISSION" />
+          <ResourceTag variant="type" value="assignment" noBorder />
         </Button>
         <Button
-          variant={selectedStatus === "OVERDUE" ? "default" : "outline"}
+          variant={selectedType === "lecture" ? "default" : "outline"}
           size="sm"
-          onClick={() => setSelectedStatus("OVERDUE")}
+          onClick={() => setSelectedType("lecture")}
           className="rounded-full"
         >
-          <ResourceTag variant="status" value="OVERDUE" />
+          <ResourceTag variant="type" value="lecture" noBorder />
+        </Button>
+        <Button
+          variant={selectedType === "reading" ? "default" : "outline"}
+          size="sm"
+          onClick={() => setSelectedType("reading")}
+          className="rounded-full"
+        >
+          <ResourceTag variant="type" value="reading" noBorder />
+        </Button>
+        <Button
+          variant={selectedType === "slides" ? "default" : "outline"}
+          size="sm"
+          onClick={() => setSelectedType("slides")}
+          className="rounded-full"
+        >
+          <ResourceTag variant="type" value="slides" noBorder />
+        </Button>
+        <Button
+          variant={selectedType === "exam" ? "default" : "outline"}
+          size="sm"
+          onClick={() => setSelectedType("exam")}
+          className="rounded-full"
+        >
+          <ResourceTag variant="type" value="exam" noBorder />
         </Button>
       </div>
       

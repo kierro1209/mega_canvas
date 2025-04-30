@@ -2,6 +2,7 @@ import { Clock, CalendarDays, FileText } from 'lucide-react';
 import { Card } from '../ui/card';
 import { Badge } from '../ui/badge';
 import { format, parseISO } from 'date-fns';
+import { useNavigate } from 'react-router-dom';
 
 interface Resource {
   id: string;
@@ -22,6 +23,7 @@ interface ResourceCardProps {
 }
 
 export function ResourceCard({ resource }: ResourceCardProps) {
+  const navigate = useNavigate();
   const getResourceTypeColor = (type: string): string => {
     const colors: Record<string, string> = {
       reading: "border-l-resource-reading",
@@ -35,8 +37,8 @@ export function ResourceCard({ resource }: ResourceCardProps) {
   };
   
   return (
-    <Link to={`/resource/${resource.id}`}>
-      <Card className={`mb-4 border-l-4 ${getResourceTypeColor(resource.type)} hover:shadow-md transition-all duration-200`}>
+    <Link to={`/submit/${resource.id}`}>
+      <Card className={`mb-4 border-l-4 ${getResourceTypeColor(resource.type)} hover:bg-muted`}>
         <div className="p-4">
           <div className="flex justify-between items-center mb-2">
             <div className="flex gap-2 items-center">
