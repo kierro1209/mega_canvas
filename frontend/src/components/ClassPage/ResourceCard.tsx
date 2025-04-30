@@ -1,5 +1,5 @@
-import { Clock, CalendarDays, FileText } from 'lucide-react';
-import { Card } from '../ui/card';
+import { Clock, CalendarDays, FileText, Check } from 'lucide-react';
+import { cn } from '@/lib/utils';
 import { Badge } from '../ui/badge';
 import { format, parseISO } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
@@ -15,8 +15,6 @@ interface Resource {
   postedDate?: string;
   points?: number;
 }
-
-import { Link } from "react-router-dom";
 
 interface ResourceCardProps {
   resource: Resource;
@@ -37,43 +35,61 @@ export function ResourceCard({ resource }: ResourceCardProps) {
   };
   
   return (
-    <Link to={`/submit/${resource.id}`}>
-      <Card className={`mb-4 border-l-4 ${getResourceTypeColor(resource.type)} hover:bg-muted`}>
-        <div className="p-4">
-          <div className="flex justify-between items-center mb-2">
-            <div className="flex gap-2 items-center">
-              <h3 className="text-lg font-semibold">{resource.title}</h3>
+    <div
+      className="relative mb-2 bg-white rounded-lg border cursor-pointer border-border hover:bg-muted"
+      onClick={() => navigate(`/submit/${resource.id}`)}
+    >
+      <div className="flex">
+        <div className={cn('w-2 self-stretch rounded-l-lg', getResourceTypeColor(resource.type).replace('border-l-', 'bg-'))}></div>
+        <div className="flex-1 p-3">
+          <div className="flex items-center gap-3 mb-1.5 flex-wrap justify-between">
+            <div className="flex gap-2 items-center min-w-0">
+              <h3 className="text-base font-medium truncate">{resource.title}</h3>
               <Badge variant="outline">{resource.type}</Badge>
             </div>
-            {resource.status && <Badge variant="outline">{resource.status}</Badge>}
+            <div className="flex gap-2 items-center">
+              <div className="flex items-center whitespace-nowrap">
+                <div className={cn('w-2 h-2 rounded-full mr-1', getResourceTypeColor(resource.type).replace('border-l-', 'bg-'))}></div>
+              </div>
+
+            </div>
           </div>
-          
-          <div className="mb-2 text-sm text-muted-foreground">
-            <span className="font-medium text-foreground">{resource.course}</span>
-          </div>
-          
-          <div className="flex flex-wrap gap-3 mt-2 text-xs text-muted-foreground">
-            {resource.dueDate && (
-              <div className="flex gap-1 items-center">
-                <CalendarDays className="w-3 h-3" />
-                <span>Due: {format(parseISO(resource.dueDate), 'MMM d, yyyy')}</span>
+
+          <div className="flex gap-3 items-center mt-1">
+            {resource.postedDate && (
+              <div className="flex items-center whitespace-nowrap">
+                <Clock className="mr-1 w-3 h-3" />
+                <span className="text-xs text-muted-foreground">
+                  Posted: {format(parseISO(resource.postedDate), 'MMM d')}
+                </span>
               </div>
             )}
-            {resource.postedDate && (
-              <div className="flex gap-1 items-center">
-                <Clock className="w-3 h-3" />
-                <span>Posted: {format(parseISO(resource.postedDate), 'MMM d, yyyy')}</span>
+            {resource.dueDate && (
+              <div className="flex items-center whitespace-nowrap">
+                <CalendarDays className="mr-1 w-3 h-3" />
+                <span
+                  className={
+                    resource.status === 'OVERDUE'
+                      ? 'text-xs text-red-600'
+                      : 'text-xs text-muted-foreground'
+                  }
+                >
+                  Due: {format(parseISO(resource.dueDate), 'MMM d')}
+                </span>
+                {resource.status === 'SUBMITTED' && (
+                  <Check className="ml-1 w-4 h-4 text-green-600" />
+                )}
               </div>
             )}
             {resource.points !== undefined && (
-              <div className="flex gap-1 items-center">
-                <FileText className="w-3 h-3" />
-                <span>{resource.points} pts</span>
+              <div className="flex items-center">
+                <FileText className="mr-1 w-3 h-3" />
+                <span className="text-xs text-muted-foreground">{resource.points} pts</span>
               </div>
             )}
           </div>
         </div>
-      </Card>
-    </Link>
+      </div>
+    </div>
   );
 }

@@ -18,7 +18,7 @@ const ClassApp = () => {
             setSelectedCourse={() => {}}
             courses={courses}
           />
-          <div className="space-y-4">
+          <div className="space-y-2">
             {Object.entries(
               Resources
                 .filter(resource => selectedType === 'all' ? true : resource.type === selectedType)
