@@ -4,6 +4,7 @@ import StatusSummary from "./StatusSummary";
 import AssignmentTable from "./AssignmentTable";
 import { Assignment, StatusCount } from "@/types";
 import { UserCircle } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 // Sample data
 const statusCount: StatusCount = {
@@ -72,6 +73,13 @@ const assignments: Assignment[] = [
 ];
 
 const AssignmentView = () => {
+  const navigate = useNavigate();
+  
+  const handleSignOut = () => {
+    // TODO: Implement sign out logic here
+    navigate('/login');
+  };
+  
   return (
     <SidebarProvider>
       <div className="flex flex-col w-full min-h-screen bg-gray-100">
@@ -86,7 +94,10 @@ const AssignmentView = () => {
               </div>
             </div>
             <div className="flex items-center">
-              <button className="flex gap-2 items-center px-4 py-2 bg-gray-200 rounded">
+              <button 
+                className="flex gap-2 items-center px-4 py-2 bg-gray-200 rounded"
+                onClick={handleSignOut}
+              >
                 <UserCircle className="w-5 h-5" />
                 <span>Logout</span>
               </button>

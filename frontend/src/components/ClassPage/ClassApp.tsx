@@ -1,4 +1,5 @@
 import ClassHeader from './ClassHeader';
+import { Sidebar } from './ClassSidebar';
 import { ResourceFilter, Resources, courses } from './ResourceFilter';
 import { WeekAccordion } from './WeekAccordian';
 import React from 'react';
@@ -8,12 +9,15 @@ const ClassApp = () => {
 
     return (
         <div className="overflow-y-auto h-full">
-          <ClassHeader />
-          <ResourceFilter
-            selectedStatus="all"
-            setSelectedStatus={() => {}}
-            selectedType={selectedType}
-            setSelectedType={setSelectedType}
+          <div className="flex h-screen overflow-hidden">
+            <Sidebar />
+            <div className="flex-1 overflow-y-auto p-4">
+              <ClassHeader />
+              <ResourceFilter
+                selectedStatus="all"
+                setSelectedStatus={() => {}}
+                selectedType={selectedType}
+                setSelectedType={setSelectedType}
             selectedCourse="all"
             setSelectedCourse={() => {}}
             courses={courses}
@@ -46,7 +50,9 @@ const ClassApp = () => {
               ))}
           </div>
         </div>
-      );
-    };
+      </div>
+    </div>
+  );
+};
 
 export default ClassApp;

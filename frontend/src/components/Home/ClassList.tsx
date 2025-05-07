@@ -61,7 +61,7 @@ const ClassCard = ({ course }: { course: Course }) => {
 
 const ClassList = () => {
     return (
-        <div className="flex justify-between items-center px-4 mb-4">
+        <div className="flex justify-between items-center mb-4">
             <div className="flex flex-col items-start space-x-4 space-y-2">
                 {/* Header */}
                 <h1 className="text-xl font-bold">
