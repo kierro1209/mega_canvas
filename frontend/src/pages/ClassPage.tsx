@@ -1,11 +1,11 @@
-import {Sidebar} from '@/components/Sidebar';
+import {Navbar} from '@/components/Navbar';
 import ClassApp from '@/components/ClassPage/ClassApp';
 
 const ClassPage = () => {
   return (
-    <div className="flex overflow-hidden h-screen">
-      <Sidebar />
-      <main className="overflow-hidden flex-1">
+    <div className="flex flex-col overflow-hidden h-screen">
+      <Navbar />
+      <main className="overflow-hidden flex-1 mt-16">
         <div className="p-4 h-full">
           <ClassApp />
         </div>

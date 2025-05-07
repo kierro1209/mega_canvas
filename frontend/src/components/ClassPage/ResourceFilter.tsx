@@ -3,7 +3,7 @@ import { ResourceTag } from "./ResourceTag";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 type ResourceStatus = 'NO SUBMISSION' | 'SUBMITTED' | 'OVERDUE';
-type ResourceType = 'reading' | 'assignment' | 'exam' | 'lecture' | 'slides';
+type ResourceType = 'Reading' | 'Assignment' | 'Exam' | 'Lecture' | 'Slides';
 
 interface Course {
   id: string;
@@ -180,61 +180,45 @@ export function ResourceFilter({
           <span className="inline-flex items-center px-2 py-0.5 text-xs font-medium">View All</span>
         </Button>
         <Button
-          variant={selectedType === "assignment" ? "default" : "outline"}
+          variant={selectedType === "Assignment" ? "default" : "outline"}
           size="sm"
-          onClick={() => setSelectedType("assignment")}
+          onClick={() => setSelectedType("Assignment")}
           className="rounded-full"
         >
-          <ResourceTag variant="type" value="assignment" noBorder />
+          <ResourceTag variant="type" value="Assignment" noBorder />
         </Button>
         <Button
-          variant={selectedType === "lecture" ? "default" : "outline"}
+          variant={selectedType === "Lecture" ? "default" : "outline"}
           size="sm"
-          onClick={() => setSelectedType("lecture")}
+          onClick={() => setSelectedType("Lecture")}
           className="rounded-full"
         >
-          <ResourceTag variant="type" value="lecture" noBorder />
+          <ResourceTag variant="type" value="Lecture" noBorder />
         </Button>
         <Button
-          variant={selectedType === "reading" ? "default" : "outline"}
+          variant={selectedType === "Reading" ? "default" : "outline"}
           size="sm"
-          onClick={() => setSelectedType("reading")}
+          onClick={() => setSelectedType("Reading")}
           className="rounded-full"
         >
-          <ResourceTag variant="type" value="reading" noBorder />
+          <ResourceTag variant="type" value="Reading" noBorder />
         </Button>
         <Button
-          variant={selectedType === "slides" ? "default" : "outline"}
+          variant={selectedType === "Slides" ? "default" : "outline"}
           size="sm"
-          onClick={() => setSelectedType("slides")}
+          onClick={() => setSelectedType("Slides")}
           className="rounded-full"
         >
-          <ResourceTag variant="type" value="slides" noBorder />
+          <ResourceTag variant="type" value="Slides" noBorder />
         </Button>
         <Button
-          variant={selectedType === "exam" ? "default" : "outline"}
+          variant={selectedType === "Exam" ? "default" : "outline"}
           size="sm"
-          onClick={() => setSelectedType("exam")}
+          onClick={() => setSelectedType("Exam")}
           className="rounded-full"
         >
-          <ResourceTag variant="type" value="exam" noBorder />
+          <ResourceTag variant="type" value="Exam" noBorder />
         </Button>
-      </div>
-      
-      <div className="ml-auto">
-        <Select value={selectedCourse} onValueChange={setSelectedCourse}>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="All Courses" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Courses</SelectItem>
-            {courses.map((course) => (
-              <SelectItem key={course.id} value={course.id}>
-                {course.name} - {course.title}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
       </div>
     </div>
   );

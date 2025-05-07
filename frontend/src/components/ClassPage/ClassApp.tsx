@@ -4,7 +4,7 @@ import { WeekAccordion } from './WeekAccordian';
 import React from 'react';
 
 const ClassApp = () => {
-    const [selectedType, setSelectedType] = React.useState<'reading' | 'assignment' | 'exam' | 'lecture' | 'slides' | 'all'>('all');
+    const [selectedType, setSelectedType] = React.useState<'Reading' | 'Assignment' | 'Exam' | 'Lecture' | 'Slides' | 'all'>('all');
 
     return (
         <div className="overflow-y-auto h-full">
@@ -28,7 +28,7 @@ const ClassApp = () => {
                 acc[week].push({
                   ...resource,
                   status: resource.status?.toUpperCase() as 'NO SUBMISSION' | 'SUBMITTED' | 'OVERDUE',
-                  type: resource.type?.toLowerCase() as 'reading' | 'assignment' | 'exam' | 'lecture' | 'slides',
+                  type: resource.type?.charAt(0).toUpperCase() + resource.type?.slice(1).toLowerCase() as 'Reading' | 'Assignment' | 'Exam' | 'Lecture' | 'Slides',
                   releaseDate: resource.postedDate?.toISOString(),
                   dueDate: resource.dueDate?.toISOString(),
                   postedDate: resource.postedDate?.toISOString()

@@ -2,13 +2,13 @@ import React from 'react';
 import AssignmentHeader from '@/components/SubmissionPortal/AssignmentHeader';
 import FileUploadArea from '@/components/SubmissionPortal/FileUploadArea';
 import ActionButtons from '@/components/SubmissionPortal/ActionButtons';
-import { Sidebar } from '@/components/Sidebar';
+import { Navbar } from '@/components/Navbar';
 
 const Portal = () => {
   return (
-    <div className="flex overflow-hidden h-screen">
-      <Sidebar />
-      <div className="flex-1 w-full h-full">
+    <div className="flex flex-col overflow-hidden h-screen">
+      <Navbar />
+      <div className="flex-1 w-full h-full mt-16">
         <AssignmentHeader />
         <div className="container px-4 py-8 mx-auto">
           <div className="flex gap-2 items-center mb-6 text-gray-700">

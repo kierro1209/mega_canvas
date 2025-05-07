@@ -1,5 +1,5 @@
 import { SidebarProvider } from "@/components/ui/sidebar";
-import { Sidebar } from "@/components/Sidebar";
+import { Navbar } from "@/components/Navbar";
 import StatusSummary from "./StatusSummary";
 import AssignmentTable from "./AssignmentTable";
 import { Assignment, StatusCount } from "@/types";
@@ -74,9 +74,9 @@ const assignments: Assignment[] = [
 const AssignmentView = () => {
   return (
     <SidebarProvider>
-      <div className="flex w-full min-h-screen bg-gray-100">
-        <Sidebar />
-        <main className="flex flex-col flex-1">
+      <div className="flex flex-col w-full min-h-screen bg-gray-100">
+        <Navbar />
+        <main className="flex flex-col flex-1 mt-16">
           <header className="flex justify-between items-center p-4 bg-white border-b">
             <div className="flex items-center">
               <div className="flex items-center">
