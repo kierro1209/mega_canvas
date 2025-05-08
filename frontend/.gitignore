@@ -2,12 +2,34 @@
 /node_modules
 /.pnp
 .pnp.js
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.yalc
+.yalc.lock
+yarn.lock
+package-lock.json
+pnpm-lock.yaml
 
 # Database
 *.db
 
+# environment
+.env
+.env.*
+!.env.example
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env*.local
+
 # testing
 /coverage
+/cypress/videos/
+/cypress/screenshots/
+.jest-cache
 
 # storybook
 storybook-static
@@ -21,29 +43,59 @@ storybook-static
 # next.js
 /.next
 /out
+.next/
+next-env.d.ts
 
 # cache
 .swc/
+.turbo
+.eslintcache
+tsconfig.tsbuildinfo
+*.tsbuildinfo
 
 # production
 /build
+/dist
+.vite
 
 # misc
 .DS_Store
 *.pem
 Thumbs.db
+.idea/
+.vscode/
+.history/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.local
 
 # debug
 npm-debug.log*
 pnpm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-# local env files
-.env*.local
+.pnpm-debug.log*
+.npm
 
 # local folder
 local
 
 # vercel
 .vercel
+
+# Logs
+logs
+*.log
+lerna-debug.log*
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Optional npm cache directory
+.npm
+
+# Stores VSCode versions used for testing VSCode extensions
+.vscode-test
