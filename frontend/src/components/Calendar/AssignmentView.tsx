@@ -1,59 +1,90 @@
 import { SidebarProvider } from "@/components/ui/sidebar";
-import { Sidebar } from "@/components/Sidebar";
+import { Navbar } from "@/components/Navbar";
 import StatusSummary from "./StatusSummary";
 import AssignmentTable from "./AssignmentTable";
 import { Assignment, StatusCount } from "@/types";
 import { UserCircle } from "lucide-react";
-import { useEffect, useState } from "react";
-import { fetchAssignments } from "@/services/api";
-import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
+// Sample data
+const statusCount: StatusCount = {
+  submitted: 4,
+  comingUp: 2,
+  overdue: 1
+};
+
+const assignments: Assignment[] = [
+  {
+    id: "1",
+    name: "Laboratory Reflection #1",
+    status: "OVERDUE",
+    dueDate: "Mar 16 at 11:59PM",
+    tags: ["Extra Credit", "Urgent", "+1"]
+  },
+  {
+    id: "2",
+    name: "Homework #4",
+    status: "SUBMITTED",
+    dueDate: "Mar 20 at 11:59PM",
+    tags: ["Late Submission"]
+  },
+  {
+    id: "3",
+    name: "Groupwork Assignment",
+    status: "NO SUBMISSION",
+    dueDate: "Apr 20 at 11:59PM",
+    tags: ["Group", "Due This Week"]
+  },
+  {
+    id: "4",
+    name: "Midterm Exam",
+    status: "SUBMITTED",
+    dueDate: "Mar 16 at 11:59PM",
+    tags: ["Due Today"]
+  },
+  {
+    id: "5",
+    name: "Section 3 Quiz",
+    status: "SUBMITTED",
+    dueDate: "Mar 8 at 11:59PM",
+    tags: ["Extra Credit"]
+  },
+  {
+    id: "6",
+    name: "Laboratory Reflection #2",
+    status: "SUBMITTED",
+    dueDate: "Mar 29 at 11:59PM",
+    tags: ["Due This Week"]
+  },
+  {
+    id: "7",
+    name: "Syllabus Quiz",
+    status: "NO SUBMISSION",
+    dueDate: "Mar 30 at 11:59PM",
+    tags: ["Extra Credit"]
+  },
+  {
+    id: "8",
+    name: "Final Exam",
+    status: "NO SUBMISSION",
+    dueDate: "Mar 30 at 11:59PM",
+    tags: []
+  }
+];
+
 const AssignmentView = () => {
-  const { hashedStudentId, logout } = useAuth();
   const navigate = useNavigate();
-  const [assignments, setAssignments] = useState<Assignment[]>([]);
-  const [statusCount, setStatusCount] = useState<StatusCount>({
-    submitted: 0,
-    comingUp: 0,
-    overdue: 0
-  });
-
-  useEffect(() => {
-    const loadData = async () => {
-      if (!hashedStudentId) {
-        navigate('/login');
-        return;
-      }
-
-      try {
-        const data = await fetchAssignments(hashedStudentId);
-        setAssignments(data);
-        
-        const counts = {
-          submitted: data.filter(a => a.status === "SUBMITTED").length,
-          comingUp: data.filter(a => a.status === "NO SUBMISSION").length,
-          overdue: data.filter(a => a.status === "OVERDUE").length
-        };
-        setStatusCount(counts);
-      } catch (error) {
-        console.error("Failed to load assignments:", error);
-      }
-    };
-
-    loadData();
-  }, [hashedStudentId, navigate]);
-
-  const handleLogout = () => {
-    logout();
+  
+  const handleSignOut = () => {
+    // TODO: Implement sign out logic here
     navigate('/login');
   };
-
+  
   return (
     <SidebarProvider>
-      <div className="flex w-full min-h-screen bg-gray-100">
-        <Sidebar />
-        <main className="flex flex-col flex-1">
+      <div className="flex flex-col w-full min-h-screen bg-gray-100">
+        <Navbar />
+        <main className="flex flex-col flex-1 mt-16">
           <header className="flex justify-between items-center p-4 bg-white border-b">
             <div className="flex items-center">
               <div className="flex items-center">
@@ -64,8 +95,8 @@ const AssignmentView = () => {
             </div>
             <div className="flex items-center">
               <button 
-                onClick={handleLogout}
-                className="flex gap-2 items-center px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
+                className="flex gap-2 items-center px-4 py-2 bg-gray-200 rounded"
+                onClick={handleSignOut}
               >
                 <UserCircle className="w-5 h-5" />
                 <span>Logout</span>

@@ -1,14 +1,12 @@
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { 
-  Home, 
-  Calendar, 
+  Home,  
   ChevronLeft, 
   ChevronRight, 
   Send, 
   Percent, 
   Settings, 
-  User,
   BookOpenText,
   LogOut
 } from 'lucide-react';
@@ -45,16 +43,14 @@ export function Sidebar() {
   const navigate = useNavigate();
 
   const navItems = [
-    { icon: <Home />, label: "Home", path: "/" },
-    { icon: <Calendar />, label: "Calendar", path: "/calendar" },
-    { icon: <BookOpenText />, label: "Assignments", path: "/assignments" },
-    { icon: <Percent />, label: "Grades", path: "/grades" },
-    { icon: <Send />, label: "Messages", path: "/messages" },
+    { icon: <Home />, label: "Home", path: "/class/home" },
+    { icon: <BookOpenText />, label: "Resources", path: "/class/resources" },
+    { icon: <Percent />, label: "Grades", path: "/class/grades" },
+    { icon: <Send />, label: "Messages", path: "/class/messages" },
   ];
 
   const bottomItems = [
-    { icon: <Settings />, label: "Settings", path: "/settings" },
-    { icon: <User />, label: "Profile", path: "/profile" },
+    { icon: <Settings />, label: "Settings", path: "/class/settings" },
   ];
 
   const handleSignOut = () => {

@@ -1,4 +1,5 @@
 import { cn } from '@/lib/utils';
+import { useNavigate } from 'react-router-dom';
 
 interface Course {
     id: string;
@@ -44,17 +45,23 @@ const getColorClass = (color: string) => {
 };
 
 {/* Class Card Template */}
-const ClassCard = ({ course }: { course: Course }) => (
-    <div className="flex flex-col items-start p-2 space-y-1 w-64 rounded-xl border-2">
-        <div className={cn('mb-2 w-full rounded-lg h-42', getColorClass(course.color))}></div>
-        <h1 className="w-full font-bold truncate text-md">{course.name}: {course.title}</h1>
-        <div className="text-sm font-medium">{course.term}</div>
+const ClassCard = ({ course }: { course: Course }) => {
+    const navigate = useNavigate();
+    return (
+    <div
+        onClick={() => navigate(`/class/${course.id}`)}
+        className="flex relative flex-col items-start p-4 space-y-2 w-64 bg-white rounded-lg border shadow-sm transition-shadow cursor-pointer border-border hover:bg-muted"
+    >
+        <div className={cn('mb-3 w-full rounded-md h-36', getColorClass(course.color))}></div>
+        <h2 className="w-full text-base font-semibold text-gray-900 truncate">{course.name}: <span className="font-normal text-gray-700">{course.title}</span></h2>
+        <div className="text-xs font-medium text-gray-500">{course.term}</div>
     </div>
-);
+    );
+};
 
 const ClassList = () => {
     return (
-        <div className="flex justify-between items-center px-4 mb-4">
+        <div className="flex justify-between items-center mb-4">
             <div className="flex flex-col items-start space-x-4 space-y-2">
                 {/* Header */}
                 <h1 className="text-xl font-bold">
