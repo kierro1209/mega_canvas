@@ -1,35 +1,63 @@
 import React, { useState } from 'react';
+import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, LogIn } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { cn } from '@/lib/utils';
+import axios from 'axios';
 
 const LoginApp: React.FC = () => {
-  const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState('');
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!username || !password) {
-      setError('Please enter both username and password');
-      return;
-    }
-    
-    setError(null);
+    setError('');
     setIsLoading(true);
-    
-    // Simulate API call
-    setTimeout(() => {
+
+    try {
+      // Use the new token endpoint for authentication
+      const formData = new FormData();
+      formData.append('username', username);
+      formData.append('password', password);
+
+      const response = await axios.post('http://localhost:8001/token', formData);
+      
+      if (response.data.access_token) {
+        // Store the token and hashed ID
+        localStorage.setItem('access_token', response.data.access_token);
+        localStorage.setItem('hashedStudentId', response.data.hashed_student_id);
+        
+        // Set up axios default headers
+        axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.access_token}`;
+        
+        // Proceed with login
+        await login(username);
+        if (rememberMe) {
+          localStorage.setItem('rememberedUser', username);
+        }
+        navigate('/dashboard');
+      }
+    } catch (err: any) {
+      // Handle specific error messages from the backend
+      if (err.response?.data?.detail === "Account not found. Please register first.") {
+        setError('Account not found. Please register first.');
+      } else if (err.response?.data?.detail === "Incorrect student ID or password") {
+        setError('Incorrect student ID or password');
+      } else {
+        setError('An error occurred during login. Please try again.');
+      }
+      console.error('Login error:', err);
+    } finally {
       setIsLoading(false);
-      navigate('/dashboard');
-    }, 1500);
+    }
   };
 
   return (
@@ -48,7 +76,7 @@ const LoginApp: React.FC = () => {
               </div>
             )}
             
-            <form onSubmit={handleLogin}>
+            <form onSubmit={handleSubmit}>
               <div className="space-y-4">
                 <div>
                   <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1">

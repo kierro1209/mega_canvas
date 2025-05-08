@@ -5,10 +5,13 @@ import AssignmentTable from "./AssignmentTable";
 import { Assignment, StatusCount } from "@/types";
 import { UserCircle } from "lucide-react";
 import { useEffect, useState } from "react";
-
-const API_BASE_URL = "http://localhost:8000";
+import { fetchAssignments } from "@/services/api";
+import { useAuth } from "@/contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const AssignmentView = () => {
+  const { hashedStudentId, logout } = useAuth();
+  const navigate = useNavigate();
   const [assignments, setAssignments] = useState<Assignment[]>([]);
   const [statusCount, setStatusCount] = useState<StatusCount>({
     submitted: 0,
@@ -17,22 +20,20 @@ const AssignmentView = () => {
   });
 
   useEffect(() => {
-    const fetchAssignments = async () => {
+    const loadData = async () => {
+      if (!hashedStudentId) {
+        navigate('/login');
+        return;
+      }
+
       try {
-        // TODO: Replace with actual student ID from auth context
-        const studentId = "your-student-id";
-        const response = await fetch(`${API_BASE_URL}/todo_short?stu_id=${studentId}`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch assignments');
-        }
-        const data = await response.json();
+        const data = await fetchAssignments(hashedStudentId);
         setAssignments(data);
         
-        // Calculate status counts
         const counts = {
-          submitted: data.filter((a: Assignment) => a.status === "SUBMITTED").length,
-          comingUp: data.filter((a: Assignment) => a.status === "NO SUBMISSION").length,
-          overdue: data.filter((a: Assignment) => a.status === "OVERDUE").length
+          submitted: data.filter(a => a.status === "SUBMITTED").length,
+          comingUp: data.filter(a => a.status === "NO SUBMISSION").length,
+          overdue: data.filter(a => a.status === "OVERDUE").length
         };
         setStatusCount(counts);
       } catch (error) {
@@ -40,8 +41,13 @@ const AssignmentView = () => {
       }
     };
 
-    fetchAssignments();
-  }, []);
+    loadData();
+  }, [hashedStudentId, navigate]);
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
 
   return (
     <SidebarProvider>
@@ -57,7 +63,10 @@ const AssignmentView = () => {
               </div>
             </div>
             <div className="flex items-center">
-              <button className="flex gap-2 items-center px-4 py-2 bg-gray-200 rounded">
+              <button 
+                onClick={handleLogout}
+                className="flex gap-2 items-center px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
+              >
                 <UserCircle className="w-5 h-5" />
                 <span>Logout</span>
               </button>
