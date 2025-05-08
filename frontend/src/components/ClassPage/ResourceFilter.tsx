@@ -1,6 +1,12 @@
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ResourceTag } from "./ResourceTag";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Check, ChevronDown } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 
 type ResourceStatus = 'NO SUBMISSION' | 'SUBMITTED' | 'OVERDUE';
 type ResourceType = 'Reading' | 'Assignment' | 'Exam' | 'Lecture' | 'Slides';
@@ -20,6 +26,7 @@ interface ResourceFilterProps {
   selectedCourse: string | "all";
   setSelectedCourse: (course: string | "all") => void;
   courses: Course[];
+  onWeekFilterChange?: (weeks: number[]) => void;
 }
 
 export const courses: Course[] = [
@@ -160,65 +167,182 @@ export const Resources = [
   },
 ];
 
+// Extract unique weeks from resources
+const getAvailableWeeks = () => {
+  const weeks = Resources.map(resource => resource.week);
+  return [...new Set(weeks)].sort((a, b) => a - b);
+};
+
+// Define resource types
+const resourceTypes: ResourceType[] = ['Reading', 'Assignment', 'Exam', 'Lecture', 'Slides'];
 
 export function ResourceFilter({
   selectedType,
   setSelectedType,
-  selectedCourse,
-  setSelectedCourse,
-  courses,
+  onWeekFilterChange,
 }: ResourceFilterProps) {
+  const [selectedWeeks, setSelectedWeeks] = useState<number[]>([]);
+  const [selectedTypes, setSelectedTypes] = useState<ResourceType[]>([]);
+  const [availableWeeks] = useState<number[]>(getAvailableWeeks());
+  const [isWeekOpen, setIsWeekOpen] = useState(false);
+  const [isTypeOpen, setIsTypeOpen] = useState(false);
+  
+  // Update the parent component's filter when local filters change
+  useEffect(() => {
+    if (selectedTypes.length === 0) {
+      setSelectedType("all");
+    } else if (selectedTypes.length === 1) {
+      setSelectedType(selectedTypes[0]);
+    } else {
+      // When multiple types are selected, we still set the first one for compatibility
+      // but the filtering logic will use the full array
+      setSelectedType(selectedTypes[0]);
+    }
+  }, [selectedTypes, setSelectedType]);
+
+  // Update parent component's week filter when local weeks change
+  useEffect(() => {
+    if (onWeekFilterChange) {
+      onWeekFilterChange(selectedWeeks);
+    }
+  }, [selectedWeeks, onWeekFilterChange]);
+
+  // Handle week selection
+  const toggleWeek = (week: number) => {
+    setSelectedWeeks(prevWeeks => 
+      prevWeeks.includes(week)
+        ? prevWeeks.filter(w => w !== week)
+        : [...prevWeeks, week]
+    );
+  };
+
+  // Handle type selection
+  const toggleType = (type: ResourceType) => {
+    setSelectedTypes(prevTypes => 
+      prevTypes.includes(type)
+        ? prevTypes.filter(t => t !== type)
+        : [...prevTypes, type]
+    );
+  };
+
+  // Clear all week filters
+  const clearWeekFilters = () => {
+    setSelectedWeeks([]);
+  };
+
+  // Clear all type filters
+  const clearTypeFilters = () => {
+    setSelectedTypes([]);
+  };
+
+  // Get display text for week dropdown button
+  const getWeekButtonText = () => {
+    if (selectedWeeks.length === 0) return "All Weeks";
+    if (selectedWeeks.length === 1) return `Week ${selectedWeeks[0]}`;
+    return `${selectedWeeks.length} Weeks Selected`;
+  };
+
+  // Get display text for type dropdown button
+  const getTypeButtonText = () => {
+    if (selectedTypes.length === 0) return "All Resource Types";
+    if (selectedTypes.length === 1) return selectedTypes[0];
+    return `${selectedTypes.length} Types Selected`;
+  };
+
   return (
-    <div className="flex flex-wrap gap-2 mb-6">
-      <div className="flex space-x-1">
-        <Button
-          variant={selectedType === "all" ? "default" : "outline"}
-          size="sm"
-          onClick={() => setSelectedType("all")}
-          className="rounded-full"
-        >
-          <span className="inline-flex items-center px-2 py-0.5 text-xs font-medium">View All</span>
-        </Button>
-        <Button
-          variant={selectedType === "Assignment" ? "default" : "outline"}
-          size="sm"
-          onClick={() => setSelectedType("Assignment")}
-          className="rounded-full"
-        >
-          <ResourceTag variant="type" value="Assignment" noBorder />
-        </Button>
-        <Button
-          variant={selectedType === "Lecture" ? "default" : "outline"}
-          size="sm"
-          onClick={() => setSelectedType("Lecture")}
-          className="rounded-full"
-        >
-          <ResourceTag variant="type" value="Lecture" noBorder />
-        </Button>
-        <Button
-          variant={selectedType === "Reading" ? "default" : "outline"}
-          size="sm"
-          onClick={() => setSelectedType("Reading")}
-          className="rounded-full"
-        >
-          <ResourceTag variant="type" value="Reading" noBorder />
-        </Button>
-        <Button
-          variant={selectedType === "Slides" ? "default" : "outline"}
-          size="sm"
-          onClick={() => setSelectedType("Slides")}
-          className="rounded-full"
-        >
-          <ResourceTag variant="type" value="Slides" noBorder />
-        </Button>
-        <Button
-          variant={selectedType === "Exam" ? "default" : "outline"}
-          size="sm"
-          onClick={() => setSelectedType("Exam")}
-          className="rounded-full"
-        >
-          <ResourceTag variant="type" value="Exam" noBorder />
-        </Button>
+    <div className="flex flex-wrap gap-4 mb-6">
+      {/* Week Filter Dropdown */}
+      <div className="relative">
+        <Popover open={isWeekOpen} onOpenChange={setIsWeekOpen}>
+          <PopoverTrigger asChild>
+            <Button 
+              variant="outline" 
+              className="flex items-center justify-between gap-2 min-w-[180px]"
+            >
+              <span>{getWeekButtonText()}</span>
+              <ChevronDown className="h-4 w-4 opacity-50" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-[220px] p-0 bg-white shadow-lg border border-border z-50" align="start">
+            <div className="p-4 border-b">
+              <div className="flex items-center justify-between mb-2">
+                <h3 className="font-medium">Filter by Week</h3>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={clearWeekFilters}
+                  className="h-8 px-2 text-xs"
+                >
+                  Clear
+                </Button>
+              </div>
+              <div className="space-y-2">
+                {availableWeeks.map((week) => (
+                  <div key={week} className="flex items-center space-x-2">
+                    <Checkbox 
+                      id={`week-${week}`}
+                      checked={selectedWeeks.includes(week)}
+                      onCheckedChange={() => toggleWeek(week)}
+                    />
+                    <Label 
+                      htmlFor={`week-${week}`}
+                      className="text-sm cursor-pointer"
+                    >
+                      Week {week}
+                    </Label>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </PopoverContent>
+        </Popover>
+      </div>
+
+      {/* Resource Type Filter Dropdown */}
+      <div className="relative">
+        <Popover open={isTypeOpen} onOpenChange={setIsTypeOpen}>
+          <PopoverTrigger asChild>
+            <Button 
+              variant="outline" 
+              className="flex items-center justify-between gap-2 min-w-[200px]"
+            >
+              <span>{getTypeButtonText()}</span>
+              <ChevronDown className="h-4 w-4 opacity-50" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-[220px] p-0 bg-white shadow-lg border border-border z-50" align="start">
+            <div className="p-4 border-b">
+              <div className="flex items-center justify-between mb-2">
+                <h3 className="font-medium">Filter by Type</h3>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={clearTypeFilters}
+                  className="h-8 px-2 text-xs"
+                >
+                  Clear
+                </Button>
+              </div>
+              <div className="space-y-2">
+                {resourceTypes.map((type) => (
+                  <div key={type} className="flex items-center space-x-2">
+                    <Checkbox 
+                      id={`type-${type.toLowerCase()}`}
+                      checked={selectedTypes.includes(type)}
+                      onCheckedChange={() => toggleType(type)}
+                    />
+                    <Label 
+                      htmlFor={`type-${type.toLowerCase()}`}
+                      className="text-sm cursor-pointer flex items-center"
+                    >
+                      <ResourceTag variant="type" value={type} noBorder className="ml-1" />
+                    </Label>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </PopoverContent>
+        </Popover>
       </div>
     </div>
   );
