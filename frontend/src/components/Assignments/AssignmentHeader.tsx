@@ -1,6 +1,8 @@
 import React from 'react';
-import { Search, SortAsc, SortDesc } from 'lucide-react';
+import { Search, SortAsc, SortDesc, Plus } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useAdmin } from '@/contexts/AdminContext';
+import { Button } from '@/components/ui/button';
 
 interface AssignmentHeaderProps {
   searchQuery: string;
@@ -15,6 +17,8 @@ const AssignmentHeader: React.FC<AssignmentHeaderProps> = ({
   sortOrder,
   onSortChange
 }) => {
+  const { isAdminMode } = useAdmin();
+
   return (
     <div className="flex items-center gap-4">
       <h1 className="text-2xl font-bold">Assignments</h1>
@@ -41,6 +45,13 @@ const AssignmentHeader: React.FC<AssignmentHeaderProps> = ({
         >
           {sortOrder === 'asc' ? <SortAsc size={18} /> : <SortDesc size={18} />}
         </button>
+
+        {isAdminMode && (
+          <Button variant="outline" className="h-10">
+            <Plus className="mr-2 h-4 w-4" />
+            Add Assignment
+          </Button>
+        )}
       </div>
     </div>
   );

@@ -6,6 +6,8 @@ import Calendar from './pages/Calendar';
 import Assignments from './pages/Assignments';
 import Login from './pages/Login';
 import ClassPage from './pages/ClassPage';
+import Grades from './pages/Grades';
+import { AdminProvider } from './contexts/AdminContext';
 
 const router = createBrowserRouter([
   {
@@ -44,13 +46,22 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
   {
+    path: '/grades',
+    element: <Grades />,
+    errorElement: <ErrorPage />,
+  },
+  {
     path: '*',
     element: <ErrorPage />,
   },
 ]);
 
 const App = () => {
-  return <RouterProvider router={router} />;
+  return (
+    <AdminProvider>
+      <RouterProvider router={router} />
+    </AdminProvider>
+  );
 };
 
 export default App;

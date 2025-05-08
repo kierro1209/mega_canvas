@@ -1,8 +1,9 @@
-import { Clock, CalendarDays, FileText, Check } from 'lucide-react';
+import { Clock, CalendarDays, FileText, Check, Edit, Users, Eye } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Badge } from '../ui/badge';
 import { format, parseISO } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
+import { useAdmin } from '@/contexts/AdminContext';
 
 interface Resource {
   id: string;
@@ -22,6 +23,7 @@ interface ResourceCardProps {
 
 export function ResourceCard({ resource }: ResourceCardProps) {
   const navigate = useNavigate();
+  const { isAdminMode } = useAdmin();
   const getResourceTypeColor = (type: string): string => {
     const colors: Record<string, string> = {
       reading: "border-l-resource-reading",
@@ -51,7 +53,19 @@ export function ResourceCard({ resource }: ResourceCardProps) {
               <div className="flex items-center whitespace-nowrap">
                 <div className={cn('w-2 h-2 rounded-full mr-1', getResourceTypeColor(resource.type).replace('border-l-', 'bg-'))}></div>
               </div>
-
+              {isAdminMode && (
+                <div className="flex gap-2">
+                  <button className="p-1 rounded hover:bg-gray-200">
+                    <Edit className="w-4 h-4 text-gray-600" />
+                  </button>
+                  <button className="p-1 rounded hover:bg-gray-200">
+                    <Users className="w-4 h-4 text-gray-600" />
+                  </button>
+                  <button className="p-1 rounded hover:bg-gray-200">
+                    <Eye className="w-4 h-4 text-gray-600" />
+                  </button>
+                </div>
+              )}
             </div>
           </div>
 

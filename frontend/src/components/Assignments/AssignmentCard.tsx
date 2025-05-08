@@ -1,8 +1,9 @@
 import React from 'react';
 import { format, parseISO, isToday, isBefore } from 'date-fns';
-import { Clock, FileText } from 'lucide-react';
+import { Clock, FileText, Edit, Eye, Users } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useNavigate } from 'react-router-dom';
+import { useAdmin } from '@/contexts/AdminContext';
 
 interface ExtendedAssignment {
   id: string;
@@ -22,6 +23,7 @@ interface AssignmentCardProps {
 
 const AssignmentCard: React.FC<AssignmentCardProps> = ({ assignment }) => {
   const navigate = useNavigate();
+  const { isAdminMode } = useAdmin();
   const getColorClass = (color: string) => {
     const colorMap: { [key: string]: string } = {
       'red-500': 'bg-red-500',
@@ -108,6 +110,20 @@ const AssignmentCard: React.FC<AssignmentCardProps> = ({ assignment }) => {
               </div>
             )}
           </div>
+
+          {isAdminMode && (
+            <div className="flex gap-3 mt-3">
+              <button className="flex items-center gap-1 text-xs text-blue-600 hover:underline" onClick={() => navigate(`/edit/${assignment.id}`)}>
+                <Edit size={12} /> Edit
+              </button>
+              <button className="flex items-center gap-1 text-xs text-blue-600 hover:underline" onClick={() => navigate(`/view/${assignment.id}`)}>
+                <Eye size={12} /> View
+              </button>
+              <button className="flex items-center gap-1 text-xs text-blue-600 hover:underline" onClick={() => navigate(`/manage/${assignment.id}`)}>
+                <Users size={12} /> Manage
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>
