@@ -77,7 +77,7 @@ export function Navbar() {
   const navItems = [
     { label: "Calendar", path: "/calendar" },
     { label: "Assignments", path: "/assignments" },
-    { label: "Grades", path: "/grades" },
+    { label: "Gradebook", path: "/grades" },
     { label: "Messages", path: "/messages" },
   ];
 
