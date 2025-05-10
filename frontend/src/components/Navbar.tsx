@@ -24,15 +24,13 @@ const NavItem = ({ label, path, hasDropdown, onClick }: NavItemProps) => {
   return (
     <div 
       className={cn(
-        "relative px-4 py-2 rounded-md transition-all cursor-pointer",
+        "relative px-4 py-2 rounded-md transition-all cursor-pointer flex items-center h-10",
         isActive ? "text-white bg-purple" : "hover:bg-muted"
       )}
       onClick={onClick}
     >
-      <div className="flex items-center">
-        <span className="text-sm font-medium">{label}</span>
-        {hasDropdown && <ChevronDown className="ml-1 w-4 h-4" />}
-      </div>
+      <span className="text-sm font-medium">{label}</span>
+      {hasDropdown && <ChevronDown className="ml-1 w-4 h-4" />}
     </div>
   );
 };
@@ -97,10 +95,10 @@ export function Navbar() {
     <div className="fixed top-0 left-0 right-0 flex justify-between items-center h-16 px-4 border-b border-border bg-sidebar z-10">
       <div className="flex items-center">
         <Link to="/">
-          <span className="text-lg font-bold mr-6 cursor-pointer hover:text-purple transition-colors">Station</span>
+          <span className="text-lg font-bold mr-6 cursor-pointer hover:text-purple transition-colors flex items-center h-10">Station</span>
         </Link>
         
-        <div className="flex space-x-2">
+        <div className="flex space-x-2 items-center">
           <div ref={dropdownRef} className="relative">
             <NavItem
               label="Home"
@@ -142,7 +140,7 @@ export function Navbar() {
           
           <div 
             className={cn(
-              "px-4 py-2 rounded-md transition-all cursor-pointer text-white",
+              "px-4 py-2 rounded-md transition-all cursor-pointer text-white flex items-center h-10",
               isAdminMode ? "bg-green-600 hover:bg-green-700" : "bg-red-600 hover:bg-red-700"
             )}
             onClick={toggleAdminMode}
@@ -152,7 +150,7 @@ export function Navbar() {
         </div>
       </div>
       
-      <div className="flex space-x-2">
+      <div className="flex space-x-2 items-center">
         {rightItems.map((item) => (
           <Link key={item.path} to={item.path}>
             <NavItem
@@ -163,7 +161,7 @@ export function Navbar() {
         ))}
         
         <div 
-          className="px-4 py-2 rounded-md transition-all cursor-pointer text-red-500 hover:bg-red-50"
+          className="px-4 py-2 rounded-md transition-all cursor-pointer text-red-500 hover:bg-red-50 flex items-center h-10"
           onClick={handleSignOut}
         >
           <span className="text-sm font-medium">Sign Out</span>
