@@ -1,11 +1,9 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { 
   Home,  
-  Send, 
   Percent, 
   Settings, 
   BookOpenText,
-  LogOut
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -36,22 +34,17 @@ const SidebarItem = ({ icon, label, path }: SidebarItemProps) => {
 
 export function Sidebar() {
   const navigate = useNavigate();
+  const { classId } = useParams();
 
   const navItems = [
-    { icon: <Home />, label: "Home", path: "/class/home" },
-    { icon: <BookOpenText />, label: "Resources", path: "/class/resources" },
-    { icon: <Percent />, label: "Grades", path: "/class/grades" },
-    { icon: <Send />, label: "Messages", path: "/class/messages" },
+    { icon: <Home />, label: "Home", path: `/class/${classId}/home` },
+    { icon: <BookOpenText />, label: "Resources", path: `/class/${classId}/resources` },
+    { icon: <Percent />, label: "Grades", path: `/class/${classId}/grades` },
   ];
 
   const bottomItems = [
-    { icon: <Settings />, label: "Settings", path: "/class/settings" },
+    { icon: <Settings />, label: "Settings", path: `/class/${classId}/settings` },
   ];
-
-  const handleSignOut = () => {
-    // TODO: Implement sign out logic here
-    navigate('/login');
-  };
 
   return (
     <div className="flex flex-col h-full w-[240px] border-r border-border bg-sidebar">
@@ -75,14 +68,6 @@ export function Sidebar() {
             path={item.path}
           />
         ))}
-        
-        <div 
-          className="flex gap-3 items-center px-3 py-3 rounded-md transition-all cursor-pointer text-red-500 hover:bg-red-50"
-          onClick={handleSignOut}
-        >
-          <div className="text-xl"><LogOut /></div>
-          <span className="text-sm font-medium">Sign Out</span>
-        </div>
       </div>
     </div>
   );
